@@ -46,7 +46,9 @@ async function print(argv) {
     const url = fileUrl(argv.input);
 
     console.log(`Loading ${url}`);
-    await page.goto(fileUrl(argv.input));
+    await page.goto(fileUrl(argv.input), {
+        waitUntil: "networkidle2"
+    });
 
     console.log(`Writing ${argv.output}`);
     await page.pdf({
