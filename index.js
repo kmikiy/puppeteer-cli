@@ -5,7 +5,7 @@ const fileUrl = require('file-url');
 
 const argv = require('yargs')
     .command({
-        command: 'print <input> <output>',
+        command: 'print <input> [<output>]',
         desc: 'Print an html file to pdf',
         builder: {
             background: {
@@ -50,8 +50,12 @@ async function print(argv) {
         waitUntil: "networkidle2"
     });
 
+    if (argv.output == "") {
+        argv.output = null
+    }
+
     console.log(`Writing ${argv.output}`);
-    await page.pdf({
+    var buffer = await page.pdf({
         path: argv.output,
         format: argv.format,
         printBackground: argv.background,
@@ -63,6 +67,11 @@ async function print(argv) {
         }
     });
 
+    if (argv.output == null) {
+        var stdin = process.stdin, stdout = process.stdout
+        await stdout.write(buffer)
+    }
+    
     console.log('Done');
     await browser.close();
 }
