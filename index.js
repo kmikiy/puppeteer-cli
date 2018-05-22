@@ -47,8 +47,11 @@ async function print(argv) {
 
     console.log(`Loading ${url}`);
     await page.goto(fileUrl(argv.input), {
-        waitUntil: "networkidle2"
+        waitUntil: "networkidle0"
     });
+    await page.evaluate(() => {
+        window.scrollBy(0, window.innerHeight);
+    })
 
     if (argv.output == "") {
         argv.output = null
@@ -71,7 +74,7 @@ async function print(argv) {
         var stdin = process.stdin, stdout = process.stdout
         await stdout.write(buffer)
     }
-    
+
     console.log('Done');
     await browser.close();
 }
