@@ -45,7 +45,7 @@ async function print(argv) {
     const page = await browser.newPage();
     const url = fileUrl(argv.input);
 
-    console.log(`Loading ${url}`);
+    //console.log(`Loading ${url}`);
     await page.goto(fileUrl(argv.input), {
         waitUntil: "networkidle0"
     });
@@ -57,7 +57,7 @@ async function print(argv) {
         argv.output = null
     }
 
-    console.log(`Writing ${argv.output}`);
+    //console.log(`Writing ${argv.output}`);
     var buffer = await page.pdf({
         path: argv.output,
         format: argv.format,
@@ -75,6 +75,6 @@ async function print(argv) {
         await stdout.write(buffer)
     }
 
-    console.log('Done');
+    //console.log('Done');
     await browser.close();
 }
